@@ -1,6 +1,6 @@
+import random
 from faker import Faker
 import psycopg2
-import random
 
 fake = Faker()
 
@@ -14,21 +14,62 @@ cur = conn.cursor()
 print("Populating customers...")
 for _ in range(100):
     cur.execute(
-        "INSERT INTO oltp.customers (email, first_name, last_name, created_at) VALUES (%s, %s, %s, %s)",
+        "INSERT INTO oltp.customers ",
+        "(email, first_name, last_name, created_at) VALUES (%s, %s, %s, %s)",
         (fake.email(), fake.first_name(), fake.last_name(), fake.date_time_this_year()),
     )
 
 # 2. Populate Products
 print("Populating products...")
-product_types = ["Electronics", "Clothing", "Home", "Books", "Software"]
+
+# Map your categories to realistic product names
+realistic_products = {
+    "Electronics": [
+        "Wireless Mouse",
+        "Mechanical Keyboard",
+        "1080p Monitor",
+        "Noise-Cancelling Headphones",
+        "USB-C Hub",
+    ],
+    "Clothing": [
+        "Cotton T-Shirt",
+        "Denim Jeans",
+        "Winter Jacket",
+        "Running Shoes",
+        "Wool Socks",
+    ],
+    "Home": [
+        "Ceramic Coffee Mug",
+        "Desk Lamp",
+        "Throw Pillow",
+        "Cast Iron Skillet",
+        "Bath Towel",
+    ],
+    "Books": [
+        "Python for Beginners",
+        "The Data Warehouse Toolkit",
+        "Sci-Fi Anthology",
+        "Gourmet Cookbook",
+        "Historical Biography",
+    ],
+    "Software": [
+        "Antivirus 1-Year License",
+        "Cloud Storage 1TB",
+        "Video Editing Pro",
+        "Password Manager",
+        "VPN Subscription",
+    ],
+}
+
 for _ in range(20):
+    # Pick a random category first
+    chosen_type = random.choice(list(realistic_products.keys()))
+    # Pick a random product name from that specific category
+    chosen_name = random.choice(realistic_products[chosen_type])
+
     cur.execute(
         "INSERT INTO oltp.products (product_type, name, price) VALUES (%s, %s, %s)",
-        (
-            random.choice(product_types),
-            fake.word().capitalize(),
-            round(random.uniform(10.0, 500.0), 2),
-        ),
+        (chosen_type, chosen_name, round(random.uniform(10.0, 500.0), 2)),
     )
 
 # --- Fetch the generated IDs to use as Foreign Keys ---

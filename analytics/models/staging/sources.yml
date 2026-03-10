@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: oltp
+    description: "Raw transactional data from our Docker Postgres database"
+    schema: oltp
+    tables:
+      - name: customers
+      - name: products
+      - name: orders
+      - name: order_items
