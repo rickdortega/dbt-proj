@@ -9,3 +9,8 @@ sources:
       - name: products
       - name: orders
       - name: order_items
+      - name: payments
+      - name: reviews
+      - name: sellers
+      - name: geolocation
+      - name: product_category_name_translation

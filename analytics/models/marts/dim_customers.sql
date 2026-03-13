@@ -4,8 +4,7 @@ with customers as (
 
 select
     customer_id,
-    first_name,
-    last_name,
-    email,
-    customer_created_at
+    customer_unique_id,
+    city,
+    state
 from customers

@@ -6,29 +6,28 @@ order_items as (
     select * from {{ ref('stg_order_items') }}
 ),
 
-products as (
-    select * from {{ ref('stg_products') }}
-),
-
--- First, calculate the total price and item count per order
+-- Aggregate item-level data up to the order level
 order_summary as (
     select
-        oi.order_id,
-        sum(oi.quantity) as total_items,
-        sum(oi.quantity * p.price) as total_order_amount
-    from order_items oi
-    join products p on oi.product_id = p.product_id
+        order_id,
+        count(order_item_sequence) as total_items,
+        sum(item_price) as total_product_revenue,
+        sum(item_freight) as total_freight_revenue,
+        sum(item_price + item_freight) as total_order_value
+    from order_items
     group by 1
 ),
 
--- Finally, join that summary back to the main orders table
+-- Join the aggregations back to the main order record
 final as (
     select
         o.order_id,
         o.customer_id,
-        o.order_date,
+        o.order_status,
+        o.order_purchase_at,
         coalesce(os.total_items, 0) as total_items,
-        coalesce(os.total_order_amount, 0) as total_order_amount
+        coalesce(os.total_product_revenue, 0) as total_product_revenue,
+        coalesce(os.total_order_value, 0) as total_order_value
     from orders o
     left join order_summary os on o.order_id = os.order_id
 )

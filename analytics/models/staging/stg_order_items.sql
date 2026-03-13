@@ -4,10 +4,11 @@ with source as (
 
 renamed as (
     select
-        order_item_id,
         order_id,
+        order_item_id as order_item_sequence,
         product_id,
-        quantity
+        price as item_price,
+        freight_value as item_freight
     from source
 )
 

@@ -5,10 +5,10 @@ with source as (
 renamed as (
     select
         customer_id,
-        email,
-        first_name,
-        last_name,
-        created_at as customer_created_at
+        customer_unique_id,
+        customer_zip_code_prefix as zip_code,
+        customer_city as city,
+        customer_state as state
     from source
 )
 

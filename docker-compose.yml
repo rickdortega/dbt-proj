@@ -12,8 +12,6 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      # Fixed the path to point to your sql directory
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   adminer:
     image: adminer
