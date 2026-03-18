@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: oltp
-    description: "Raw transactional data from our Docker Postgres database"
+    description: "Raw transactional data from the Olist Brazilian E-Commerce dataset"
     schema: oltp
     tables:
       - name: customers
