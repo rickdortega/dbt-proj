@@ -6,7 +6,7 @@ renamed as (
     select
         product_id,
         product_category_name,
-        product_name_lenght as product_name_length,
+        product_name_lenght as product_name_length, -- renamed to fix typo
         product_description_lenght as product_description_length, -- renamed to fix typo
         product_photos_qty,
         product_weight_g as product_weight_grams,
